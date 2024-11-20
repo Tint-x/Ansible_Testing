@@ -1,0 +1,21 @@
+---
+- name: Run nslcd/sssd check
+  hosts: localhost
+  tasks:
+
+    - name: Execute getent passwd
+      ansible.builtin.shell: getent passwd
+      changed_when: false
+      register: getent_output
+
+    - name: Display getent output
+      ansible.builtin.debug:
+        var: getent_output.stdout_lines
+
+    - name: Display nslcd status
+      ansible.builtin.debug:
+        msg: "nslcd status: {{ ['ansible_facts']['services']['nslcd']['state'] | default('not found') }}"
+
+    - name: Display sssd status
+      ansible.builtin.debug:
+        msg: "sssd status: {{ ['ansible_facts']['services']['sssd']['state'] | default('not found') }}"
