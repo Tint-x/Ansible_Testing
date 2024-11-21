@@ -1,6 +1,6 @@
 ---
 - name: Run CPU Usage check
-  hosts: localhost
+  hosts: all
   tasks:
     - name: Execute top to get cpu usage
       ansible.builtin.shell: "top -n 1 -b | head -n 4"
