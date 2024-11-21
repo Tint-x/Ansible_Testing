@@ -1,5 +1,6 @@
 ---
 - name: Run nslcd/sssd check
+  hosts: all
   tasks:
 
     - name: Execute getent passwd
