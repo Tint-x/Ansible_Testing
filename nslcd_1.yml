@@ -1,6 +1,6 @@
 ---
 - name: Run nslcd/sssd check
-  hosts: {{ host_name }}
+  hosts: "{{ host_name }}"
   tasks:
 
     - name: Execute getent passwd
