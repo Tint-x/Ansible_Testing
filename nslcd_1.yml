@@ -4,7 +4,7 @@
   tasks:
 
     - name: Execute getent passwd
-      ansible.builtin.shell: grep -v -f /etc/passwd <(getent passwd)
+      ansible.builtin.shell: getent passwd
       changed_when: false
       register: getent_output
 
