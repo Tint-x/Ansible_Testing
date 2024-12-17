@@ -1,0 +1,13 @@
+---
+- name: Check Portnet Message Queue Depth
+  hosts: "{{ host_name }}"
+  tasks:
+
+    - name: Execute script to retrieve queue depth
+      ansible.builtin.shell: "echo TEST_QUEUE | /opt/sysadmin/gateway_scripts/tools/run_mqselfhelp.ksh liv dis_q_info"
+      changed_when: false
+      register: queue_output
+
+    - name: Display queue output
+      ansible.builtin.debug:
+        var: queue_output.stdout_lines
