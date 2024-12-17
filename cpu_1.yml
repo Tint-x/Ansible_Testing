@@ -3,7 +3,7 @@
   hosts: "{{ host_name }}"
   tasks:
     - name: Execute top to get cpu usage
-      ansible.builtin.shell: "top -n 1 -b | head -n 4"
+      ansible.builtin.shell: "top -n 1 -b | head -n 8"
       changed_when: false 
       register: top_output
 
