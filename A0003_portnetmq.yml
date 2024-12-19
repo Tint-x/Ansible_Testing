@@ -2,6 +2,7 @@
 - name: Check Portnet Message Queue Depth
   hosts: "{{ host_name }}"
   become: true
+  become_method: sudo
   become_user: sysadm
   tasks:
 
