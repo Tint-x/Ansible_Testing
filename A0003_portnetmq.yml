@@ -10,6 +10,7 @@
     - name: Execute script to retrieve queue depth
       ansible.builtin.shell: |
         echo {{ queue_name }} | /opt/sysadmin/gateway_scripts/tools/run_mqselfhelp.ksh liv dis_q_info
+      executable: /bin/ksh
       changed_when: false
       register: queue_output
 
