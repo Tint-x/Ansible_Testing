@@ -2,15 +2,36 @@
 - name: Run nslcd/sssd check
   hosts: "{{ host_name }}"
   tasks:
-
-    - name: Execute getent passwd
-      ansible.builtin.shell: getent passwd
-      changed_when: false
-      register: getent_output
-
-    - name: Display getent output
+    - name: Display SOP notes
       ansible.builtin.debug:
-        var: getent_output.stdout_lines
+        msg: |
+          Check if LDAP is working by comparing both outputs:
+          1. 'getent passwd' (which includes entries from LDAP if nslcd is working)
+          2. 'cat /etc/passwd' (which includes only local user entries)
+          Differences between the two outputs indicate additional LDAP user entries.
+
+    - name: Capture local passwd entries (from /etc/passwd)
+      ansible.builtin.command:
+        cmd: cat /etc/passwd
+      changed_when: false
+      register: local_passwd_output
+
+    - name: Capture all passwd entries (from getent passwd)
+      ansible.builtin.command:
+        cmd: getent passwd
+      changed_when: false
+      register: getent_passwd_output
+
+    - name: Extract additional LDAP entries
+      ansible.builtin.shell:
+        cmd: |
+          echo "{{ getent_passwd_output.stdout_lines | difference(local_passwd_output.stdout_lines) | join('\n') }}"
+      changed_when: false
+      register: ldap_diff_output
+
+    - name: Display additional LDAP entries (if any)
+      ansible.builtin.debug:
+        var: ldap_diff_output.stdout_lines
 
     - name: Display nslcd status
       ansible.builtin.debug:
