@@ -1,20 +1,20 @@
 ---
-- name: Run CPU Usage check
+- name: Run CPU Usage check for Portnet/Marine DB servers
   hosts: "{{ host_name }}"
   gather_facts: no
   tasks:
+    - name: Display SOP notes
+      ansible.builtin.debug:
+        msg: | 
+          NOTE: Refer to CPU usage and steps as per duration [Reference: KB0011768 ]
+          < 20min ( No action requried )
+          > 20min ( SMS to DO alert along with top process )
+
     - name: Execute top to get cpu usage
       ansible.builtin.shell: | 
         top -n 1 -b | head -n 8
       changed_when: false 
       register: top_output
-
-    - name: Display SOP notes
-      ansible.builtin.debug:
-        msg: | 
-          NOTE: Refer to CPU usage and steps as per duration
-          < 20min ( No action requried )
-          > 20min ( SMS to DO alert along with top process )
 
     - name: Display top output
       ansible.builtin.debug:
