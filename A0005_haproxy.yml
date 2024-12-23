@@ -1,6 +1,9 @@
 ---
 - name: Run haproxy status check
   hosts: "{{ host_name }}"
+  become: true
+  become_method: sudo
+  become_user: root
   tasks:
 
     - name: Retrieve logs of Layer4
