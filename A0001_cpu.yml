@@ -4,9 +4,18 @@
   gather_facts: no
   tasks:
     - name: Execute top to get cpu usage
-      ansible.builtin.shell: "top -n 1 -b | head -n 8"
+      ansible.builtin.shell: | 
+        top -n 1 -b | head -n 8
       changed_when: false 
       register: top_output
+
+    - name: Display SOP notes
+      ansible.builtin.debug:
+        msg: | 
+          NOTE: Refer to CPU usage and steps as per duration
+          < 1hr ( No action requried )
+          > 1hr ( SMS to DO alert along with top process )
+          > 2hr ( If utilization does not normalize, provide hourly updates of usage % to DO )
 
     - name: Display top output
       ansible.builtin.debug:
