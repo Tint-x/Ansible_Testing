@@ -4,12 +4,12 @@
   gather_facts: no
   tasks:
     - name: Execute ntpstat to get status
-      ansible.builtin.command: ntpstat
+      ansible.builtin.shell: ntpstat
       changed_when: false 
       register: ntpstat_output
 
     - name: Execute ntpq to get offset
-      ansible.builtin.command: ntpq -p
+      ansible.builtin.shell: ntpq -p
       changed_when: false 
       register: ntpq_output
 
@@ -19,7 +19,6 @@
           NOTE: Ensure NTP is sychronised and offset is below 300 [Reference: KB0012165 ]
           If ntp is "sychronised" and offset is below 300, monitor for 20 mins. If alert persists, escalate to DO.
           If ntp is "unsynchronised" and/or offset is above 300, restart ntpd as per SOP.
-          > 2hr ( If utilization does not normalize, provide hourly updates of usage % to DO )
 
     - name: Display ntpstat output
       ansible.builtin.debug:
