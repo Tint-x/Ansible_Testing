@@ -9,6 +9,14 @@
       changed_when: false
       register: logs_output
 
+    - name: Display SOP notes
+      ansible.builtin.debug:
+        msg: | 
+          NOTE: Refer to latest logs and ensure status is UP [ Reference: KB0011777 ]
+          If "<SERVICE> is DOWN" and "1 active server left", monitor for 30 mins for "<SERVICE> is UP". Else take action as per SOP.
+          If "<SERVICE> is DOWN" and "0 active server left", take action as per SOP.
+          If service is pc_imex_edo_bizfn -or- pc_imex_soro, DO NOT wait 30 mins, take action as per SOP.
+
     - name: Display logs output
       ansible.builtin.debug:
         var: logs_output.stdout_lines
