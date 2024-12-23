@@ -3,6 +3,13 @@
   hosts: "{{ host_name }}"
   gather_facts: no
   tasks:
+    - name: Display SOP notes
+      ansible.builtin.debug:
+        msg: | 
+          NOTE: Ensure NTP is sychronised and offset is below 300 [Reference: KB0012165 ]
+          If ntp is "sychronised" and offset is below 300, monitor for 20 mins. If alert persists, escalate to DO.
+          If ntp is "unsynchronised" and/or offset is above 300, restart ntpd as per SOP.
+          
     - name: Execute ntpstat to get status
       ansible.builtin.shell: ntpstat
       changed_when: false 
@@ -12,13 +19,6 @@
       ansible.builtin.shell: ntpq -p
       changed_when: false 
       register: ntpq_output
-
-    - name: Display SOP notes
-      ansible.builtin.debug:
-        msg: | 
-          NOTE: Ensure NTP is sychronised and offset is below 300 [Reference: KB0012165 ]
-          If ntp is "sychronised" and offset is below 300, monitor for 20 mins. If alert persists, escalate to DO.
-          If ntp is "unsynchronised" and/or offset is above 300, restart ntpd as per SOP.
 
     - name: Display ntpstat output
       ansible.builtin.debug:
