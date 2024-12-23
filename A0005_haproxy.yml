@@ -5,13 +5,6 @@
   become_method: sudo
   become_user: root
   tasks:
-
-    - name: Retrieve logs of Layer4
-      ansible.builtin.shell: | 
-        cat /var/log/messages | grep Layer4 | tail -n 10
-      changed_when: false
-      register: logs_output
-
     - name: Display SOP notes
       ansible.builtin.debug:
         msg: | 
@@ -19,6 +12,12 @@
           If "<SERVICE> is DOWN" and "1 active server left", monitor for 30 mins for "<SERVICE> is UP". Else take action as per SOP.
           If "<SERVICE> is DOWN" and "0 active server left", take action as per SOP.
           If service is pc_imex_edo_bizfn -or- pc_imex_soro, DO NOT wait 30 mins, take action as per SOP.
+
+    - name: Retrieve logs of Layer4
+      ansible.builtin.shell: | 
+        cat /var/log/messages | grep Layer4 | tail -n 10
+      changed_when: false
+      register: logs_output
 
     - name: Display logs output
       ansible.builtin.debug:
