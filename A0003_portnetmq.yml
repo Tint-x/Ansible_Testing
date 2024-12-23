@@ -6,14 +6,6 @@
   become_user: sysadm
   gather_facts: no
   tasks:
-
-    - name: Execute script to retrieve queue depth
-      ansible.builtin.shell:
-        cmd: echo {{ queue_name }} | /opt/sysadmin/gateway_scripts/tools/run_mqselfhelp.ksh liv dis_q_info
-        executable: /bin/ksh
-      changed_when: false
-      register: queue_output
-
     - name: Display SOP notes
       ansible.builtin.debug:
         msg: | 
@@ -21,6 +13,13 @@
           If "Consumers: 0", immediately escalate to DO
           Else monitor for queue depth to decrease over time, no actions required
           If queue depth keeps increasing, escalate to DO
+
+    - name: Execute script to retrieve queue depth
+      ansible.builtin.shell:
+        cmd: echo {{ queue_name }} | /opt/sysadmin/gateway_scripts/tools/run_mqselfhelp.ksh liv dis_q_info
+        executable: /bin/ksh
+      changed_when: false
+      register: queue_output
 
     - name: Display queue output
       ansible.builtin.debug:
