@@ -14,6 +14,14 @@
       changed_when: false
       register: queue_output
 
+    - name: Display SOP notes
+      ansible.builtin.debug:
+        msg: | 
+          NOTE: Refer to Consumers and queue depth [Reference: KB0011868 ]
+          If "Consumers: 0", immediately escalate to DO
+          Else monitor for queue depth to decrease over time, no actions required
+          If queue depth keeps increasing, escalate to DO
+
     - name: Display queue output
       ansible.builtin.debug:
         var: queue_output.stdout_lines
