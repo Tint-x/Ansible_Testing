@@ -1,0 +1,19 @@
+---
+- name: Run haproxy status check
+  hosts: "{{ host_name }}"
+  tasks:
+
+    - name: Retrieve logs of Layer4
+      ansible.builtin.shell: | 
+        cat /var/log/messages | grep Layer4 | tail -n 10
+      changed_when: false
+      register: logs_output
+
+    - name: Display logs output
+      ansible.builtin.debug:
+        var: logs_output.stdout_lines
+
+    - name: Display haproxy status
+      ansible.builtin.debug:
+        msg: "haproxy status: {{ ['ansible_facts']['services']['haproxy']['state'] | default('not found') }}"
+        
