@@ -1,9 +1,6 @@
 ---
 - name: Check Portnet Message Queue Depth
   hosts: "{{ host_name }}"
-  become: true
-  become_user: sysadm
-  become_method: sudo
   gather_facts: no
   tasks:
     - name: Display SOP notes
@@ -15,11 +12,7 @@
           If queue depth keeps increasing, escalate to DO
 
     - name: Execute script to retrieve queue depth
-      ansible.builtin.shell:
-        cmd: echo {{ queue_name }} | /opt/sysadmin/gateway_scripts/tools/run_mqselfhelp.ksh liv dis_q_info
-        executable: /bin/ksh
-      become: true
-      become_user: sysadm
+      ansible.builtin.shell: id
       changed_when: false
       register: queue_output
 
