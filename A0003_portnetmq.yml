@@ -3,16 +3,10 @@
   hosts: "{{ host_name }}"
   gather_facts: no
   tasks:
-    - name: Display SOP notes
-      ansible.builtin.debug:
-        msg: | 
-          NOTE: Refer to Consumers and queue depth [Reference: KB0011868 ]
-          If "Consumers: 0", immediately escalate to DO
-          Else monitor for queue depth to decrease over time, no actions required
-          If queue depth keeps increasing, escalate to DO
-
     - name: Execute script to retrieve queue depth
       ansible.builtin.shell: id
+      become: true
+      become_user: sysadm
       changed_when: false
       register: queue_output
 
