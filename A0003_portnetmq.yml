@@ -1,8 +1,7 @@
 ---
 - name: Check Portnet Message Queue Depth
   hosts: "{{ host_name }}"
-  become: yes
-  become_user: sysadm
+  become: true
   become_method: sudo
   gather_facts: no
   tasks:
@@ -18,6 +17,9 @@
       ansible.builtin.shell:
         cmd: echo {{ queue_name }} | /opt/sysadmin/gateway_scripts/tools/run_mqselfhelp.ksh liv dis_q_info
         executable: /bin/ksh
+      become: true
+      become_method: sudo
+      become_user: sysadm
       changed_when: false
       register: queue_output
 
