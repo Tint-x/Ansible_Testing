@@ -1,0 +1,25 @@
+---
+- name: Run cluster heartbeat check
+  hosts: "{{ host_name }}"
+  vars:
+    sop_notes:
+      - "NOTE: Check on cluster heartbeat connections [Reference: KB0011772 ]"
+      - "Make sure all paths are online."
+      - "If there are any paths offline, immediately escalate to Portnet DO."
+  tasks:
+    - name: Display SOP Notes
+      ansible.builtin.debug:
+        msg: "{{ sop_notes }}"
+
+    - name: Run command to check cluster status
+      ansible.builtin.shell: |
+        /usr/cluster/bin/clinterconnect status
+      become: true
+      become_method: sudo
+      become_user: root
+      changed_when: false
+      register: cluster_output
+
+    - name: Display cluster status output
+      ansible.builtin.debug:
+        var: cluster_output.stdout_lines
