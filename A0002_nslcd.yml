@@ -1,14 +1,16 @@
 ---
 - name: Run nslcd/sssd check
   hosts: "{{ host_name }}"
+  vars:
+    sop_notes:
+      - "NOTE: Check if LDAP is working by comparing both outputs [Reference: KB0012217 ]"
+      - "1. 'getent passwd' ( which includes entries from LDAP if nslcd is working )"
+      - "2. 'cat /etc/passwd' ( which includes only local user entries )"
+      - "Differences between the two outputs indicate additional LDAP user entries, and that LDAP is working."
   tasks:
-    - name: Display SOP notes
+    - name: Display SOP Notes
       ansible.builtin.debug:
-        msg: |
-          Check if LDAP is working by comparing both outputs:
-          1. 'getent passwd' (which includes entries from LDAP if nslcd is working)
-          2. 'cat /etc/passwd' (which includes only local user entries)
-          Differences between the two outputs indicate additional LDAP user entries.
+        msg: "{{ sop_notes }}"
 
     - name: Capture local passwd entries (from /etc/passwd)
       ansible.builtin.command:
