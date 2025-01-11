@@ -1,0 +1,26 @@
+---
+- name: Run haproxy service status check
+  hosts: "{{ host_nmae }}"
+  gather_facts: no
+  vars:
+    sop_notes:
+      - "NOTE: Check on haproxy service status [Reference: KB0011767 ]"
+      - "Make sure service is Online and running."
+      - "If serivce is Offline, immediately escalate to Portnet DO.."
+  tasks:
+    - name: Display SOP Notes
+      ansible.builtin.debug:
+        msg: "{{ sop_notes }}"
+
+    - name: Run command to check haproxy status
+      ansible.builtin.shell: |
+        systemctl status haproxy
+      become: true
+      become_method: sudo
+      become_user: root
+      changed_when: false
+      register: haproxy_output
+
+    - name: Display haproxy status output
+      ansible.builtin.debug:
+              var: haproxy_output.stdout_lines
