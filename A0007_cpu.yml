@@ -2,13 +2,15 @@
 - name: Run CPU Usage check for Portnet/Marine DB servers
   hosts: "{{ host_name }}"
   gather_facts: no
+  vars:
+    sop_notes:
+      - "NOTE: Refer to CPU usage and steps as per duration [Reference: KB0011768 ]"
+      - "< 20min ( No action requried )"
+      - "> 20min ( SMS to DO alert along with top process )"
   tasks:
-    - name: Display SOP notes
+    - name: Display SOP Notes
       ansible.builtin.debug:
-        msg: | 
-          NOTE: Refer to CPU usage and steps as per duration [Reference: KB0011768 ]
-          < 20min ( No action requried )
-          > 20min ( SMS to DO alert along with top process )
+        msg: "{{ sop_notes }}"
 
     - name: Execute top to get cpu usage
       ansible.builtin.shell: | 
