@@ -1,0 +1,25 @@
+---
+- name: Run rlogind service status check
+  hosts: "{{ host_name }}"
+  vars:
+    sop_notes:
+      - "NOTE: Check if rlogind service is running [Reference: KB0011900 ]"
+      - "Make sure service is online."
+      - "Commonly due to security scanning, check /var/adm/messages"
+  tasks:
+    - name: Display SOP Notes
+      ansible.builtin.debug:
+        msg: "{{ sop_notes }}"
+
+    - name: Run command to check service
+      ansible.builtin.shell: |
+        svcs -a | grep rlogin
+      become: true
+      become_method: sudo
+      become_user: root
+      changed_when: false
+      register: rlogind_output
+
+    - name: Display rlogind status output
+      ansible.builtin.debug:
+        var: rlogind_output.stdout_lines
