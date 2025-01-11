@@ -3,11 +3,11 @@
   hosts: "{{ host_name }}"
   gather_facts: no
   vars:
-    - sop_notes:
-        - "NOTE: Refer to CPU usage and steps as per duration"
-        - "< 1hr ( No action requried )"
-        - "> 1hr ( SMS to DO alert along with top process )"
-        - "> 2hr ( If utilization does not normalize, provide hourly updates of usage % to DO )"
+    sop_notes:
+      - "NOTE: Refer to CPU usage and steps as per duration [Reference: KB0012118 ]"
+      - "< 1hr ( No action requried )"
+      - "> 1hr ( SMS to DO alert along with top process )"
+      - "> 2hr ( If utilization does not normalize, provide hourly updates of usage % to DO )"
   tasks:
     - name: Display SOP Notes
       ansible.builtin.debug:
