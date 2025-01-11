@@ -19,7 +19,20 @@
       become_user: root
       changed_when: false
       register: rlogind_output
+    
+    - name: Retrieve recent logs
+      ansible.builtin.shell: |
+        tail -30 /var/adm/messages
+      become: true
+      become_method: sudo
+      become_user: root
+      changed_when: false
+      register: logs_output
 
     - name: Display rlogind status output
       ansible.builtin.debug:
         var: rlogind_output.stdout_lines
+
+    - name: Display logs output
+      ansible.builtin.debug:
+        var: logs_output.stdout_lines
