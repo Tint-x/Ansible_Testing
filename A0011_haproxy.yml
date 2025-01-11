@@ -1,6 +1,6 @@
 ---
 - name: Run haproxy service status check
-  hosts: "{{ host_nmae }}"
+  hosts: "{{ host_name }}"
   gather_facts: no
   vars:
     sop_notes:
