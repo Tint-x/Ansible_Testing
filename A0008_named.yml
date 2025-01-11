@@ -12,8 +12,8 @@
         msg: "{{ sop_notes }}"
 
     - name: Run command to check service
-      ansible.builtin.shell:
-        cmd: "ps -ef | grep named | grep -v grep"
+      ansible.builtin.shell: |
+        ps -ef | grep named | grep -v grep
       changed_when: false
       register: named_output
 
