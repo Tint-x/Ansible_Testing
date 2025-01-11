@@ -5,12 +5,18 @@
     sop_notes:
       - "NOTE: Check if DNS (Named) service is running [Reference: KB0011843 ]"
       - "This alert would normally be due to maintenance."
-      - "If DNS (Named) service is not up, immediately inform DO."
+      - "If output below is empty, means DNS (Named) service is not up, immediately inform DO."
   tasks:
     - name: Display SOP Notes
       ansible.builtin.debug:
         msg: "{{ sop_notes }}"
 
-    - name: Display named status
+    - name: Run command to check service
+      ansible.builtin.shell:
+        cmd: "ps -ef | grep named | grep -v grep"
+      changed_when: false
+      register: named_output
+
+    - name: Display named status output
       ansible.builtin.debug:
-        msg: "named status: {{ ['ansible_facts']['services']['named']['state'] | default('not found') }}"
+        var: named_output.stdout_lines
