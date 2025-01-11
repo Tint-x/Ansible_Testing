@@ -1,17 +1,20 @@
 ---
 - name: Run haproxy status check
   hosts: "{{ host_name }}"
+  gather_facts: no
   become: true
   become_method: sudo
   become_user: root
+  vars:
+    sop_notes:
+      - "NOTE: Refer to latest logs and ensure status is UP [Reference: KB0011777 ]"
+      - "If '<SERVICE> is DOWN' and '1 active server left', monitor for 30 mins for message '<SERVICE> is UP'. Else take action as per SOP."
+      - "If '<SERVICE> is DOWN' and '0 active server left', take action as per SOP."
+      - "If service is pc_imex_edo_bizfn -OR- pc_imex_soro, DO NOT wait 30 mins, take action as per SOP."
   tasks:
-    - name: Display SOP notes
+    - name: Display SOP Notes
       ansible.builtin.debug:
-        msg: | 
-          NOTE: Refer to latest logs and ensure status is UP [ Reference: KB0011777 ]
-          If "<SERVICE> is DOWN" and "1 active server left", monitor for 30 mins for "<SERVICE> is UP". Else take action as per SOP.
-          If "<SERVICE> is DOWN" and "0 active server left", take action as per SOP.
-          If service is pc_imex_edo_bizfn -or- pc_imex_soro, DO NOT wait 30 mins, take action as per SOP.
+        msg: "{{ sop_notes }}"
 
     - name: Retrieve logs of Layer4
       ansible.builtin.shell: | 
@@ -22,8 +25,3 @@
     - name: Display logs output
       ansible.builtin.debug:
         var: logs_output.stdout_lines
-
-    - name: Display haproxy status
-      ansible.builtin.debug:
-        msg: "haproxy status: {{ ['ansible_facts']['services']['haproxy']['state'] | default('not found') }}"
-        
