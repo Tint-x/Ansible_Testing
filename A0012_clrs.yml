@@ -1,0 +1,26 @@
+---
+- name: Run cluster resource status check
+  hosts: "{{ host_name }}"
+  gather_facts: no
+  vars:
+    sop_notes:
+      - "NOTE: Check on cluster resources status [Reference: KB0011890 ]"
+      - "Make sure all cluster resources are Online"
+      - "If both cluster of resource is offline, immediately escalate to Marine DO."
+  tasks:
+    - name: Display SOP Notes
+      ansible.builtin.debug:
+        msg: "{{ sop_notes }}"
+
+    - name: Run command to check cluster resource status
+      ansible.builtin.shell: |
+        clrs status
+      become: true
+      become_method: sudo
+      become_user: root
+      changed_when: false
+      register: cluster_output
+
+    - name: Display cluster resource status output
+      ansible.builtin.debug:
+              var: cluster_output.stdout_lines
