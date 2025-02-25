@@ -16,6 +16,12 @@
   gather_facts: no
 
   tasks:
-    - name: Your task here
-      debug:
-        msg: "Running on {{ inventory_hostname }}"
+    - name: Execute top to get cpu usage
+      ansible.builtin.shell: | 
+        top -n 1 -b | head -n 8
+      changed_when: false 
+      register: top_output
+
+    - name: Display top output
+      ansible.builtin.debug:
+        var: top_output.stdout_lines
