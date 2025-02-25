@@ -1,0 +1,21 @@
+---
+- name: Run task on dynamic host
+  hosts: localhost
+  gather_facts: no
+  vars:
+    host_name: "{{ survey_host_name }}"
+
+  tasks:
+    - name: Add the host dynamically
+      add_host:
+        name: "{{ host_name }}"
+        groups: dynamic_group
+
+- name: Run tasks on the dynamically added host
+  hosts: dynamic_group
+  gather_facts: no
+
+  tasks:
+    - name: Your task here
+      debug:
+        msg: "Running on {{ inventory_hostname }}"
