@@ -6,9 +6,9 @@
     - name: Retrieve configuration item info
       servicenow.itsm.configuration_item_info:
         instance: 
-          host: "{{ sn_instance }}"
-          username: "{{ sn_user }}"
-          password: "{{ sn_password }}"
+          host: "https://dev226839.service-now.com"
+          username: "admin"
+          password: "F*H8w0YkQ-ux"
         query:
           - name: = "{{ survey_host_name }}"
             sys_class_name: = "cmdb_ci_linux_server"
