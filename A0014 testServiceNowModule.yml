@@ -19,4 +19,4 @@
 
     - name: Display matching records
       debug:
-        var: result.records.ip_address
+        var: result[records][ip_address]
