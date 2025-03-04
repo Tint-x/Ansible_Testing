@@ -1,0 +1,19 @@
+---
+- name: Retrieve Records from ServiceNow using ITSM module
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Retrieve configuration item info
+      servicenow.itsm.configuration_item_info:
+        instance: "{{ sn_instance }}"
+        user: "{{ sn_user }}"
+        password: "{{ sn_password }}"
+        query:
+          hostname: "{{ survey_host_name }}"
+          sys_class_name: "cmdb_ci_linux_server"
+        state: "query"
+      register: result
+
+    - name: Display matching records
+      debug:
+        var: result
