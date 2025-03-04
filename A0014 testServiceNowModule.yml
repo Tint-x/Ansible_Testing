@@ -7,7 +7,7 @@
       servicenow.itsm.configuration_item_info:
         instance: 
           host: "{{ sn_instance }}"
-          user: "{{ sn_user }}"
+          username: "{{ sn_user }}"
           password: "{{ sn_password }}"
         name: "{{ survey_host_name }}"
       register: result
