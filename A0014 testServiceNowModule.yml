@@ -8,9 +8,7 @@
         instance: "{{ sn_instance }}"
         user: "{{ sn_user }}"
         password: "{{ sn_password }}"
-        query:
-          name: "{{ survey_host_name }}"
-          sys_class_name: "cmdb_ci_linux_server"
+        name: "{{ survey_host_name }}"
       register: result
 
     - name: Display matching records
