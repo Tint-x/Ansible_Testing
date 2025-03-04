@@ -19,4 +19,4 @@
 
     - name: Display matching records
       debug:
-        msg: "{{ ['result']['records']['ip_address'] }}"
+        msg: "{{ result.records[0] }}"
