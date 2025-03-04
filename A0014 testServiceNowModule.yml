@@ -10,9 +10,8 @@
           username: "{{ sn_user }}"
           password: "{{ sn_password }}"
         query:
-          hostname: "{{ survey_host_name }}"
-          sys_class_name: "cmdb_ci_linux_server"
-        state: "query"
+          - name: = "{{ survey_host_name }}"
+            sys_class_name: = "cmdb_ci_linux_server"
       register: result
 
     - name: Display matching records
