@@ -11,7 +11,6 @@
         query:
           hostname: "{{ survey_host_name }}"
           sys_class_name: "cmdb_ci_linux_server"
-        state: "query"
       register: result
 
     - name: Display matching records
