@@ -12,6 +12,9 @@
         query:
           - name: = {{ survey_host_name }}
             sys_class_name: = cmdb_ci_linux_server
+        return_fields:
+          - ip_address
+          - sys_id
       register: result
 
     - name: Display matching records
