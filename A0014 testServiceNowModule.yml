@@ -10,7 +10,7 @@
           username: "admin"
           password: "F*H8w0YkQ-ux"
         query:
-          - name: = "{{ survey_host_name }}"
+          - name: = {{ survey_host_name }}
       register: result
 
     - name: Display matching records
